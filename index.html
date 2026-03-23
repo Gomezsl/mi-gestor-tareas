@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gestor de Tareas Pro</title>
+    <title>TaskMaster Pro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="wrapper">
         <div class="container main-panel">
-            <h1>📝 Mis Pendientes</h1>
+            <h1>📝 TaskMaster</h1>
 
             <div id="auth-section">
                 <input type="email" id="email" placeholder="Correo electrónico">
@@ -26,9 +26,8 @@
                     <span id="user-email"></span>
                     <button id="btn-logout">Salir</button>
                 </div>
-                
                 <div class="input-group">
-                    <input type="text" id="todo-input" placeholder="¿Qué hay que hacer?">
+                    <input type="text" id="todo-input" placeholder="¿Qué sigue hoy?">
                     <button id="btn-add">Añadir</button>
                 </div>
             </div>
@@ -36,14 +35,12 @@
 
         <div id="list-panel" class="container task-panel hidden">
             <h3>Tu Lista</h3>
-            <ul id="todo-list">
-                </ul>
+            <ul id="todo-list"></ul>
             <div id="empty-state" class="empty-state">
-                <p>No hay tareas pendientes ✨</p>
+                <p>Todo en orden por aquí ✨</p>
             </div>
         </div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>
