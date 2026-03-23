@@ -32,15 +32,31 @@
                     <span id="user-email"></span>
                     <button id="btn-logout">Salir</button>
                 </div>
+                
                 <div class="input-group">
                     <input type="text" id="todo-input" placeholder="¿Qué tienes pendiente hoy?">
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <select id="todo-priority" style="flex: 1; padding: 10px; border-radius: 10px; background: var(--input-bg); color: white; border: none;">
+                            <option value="baja">🟢 Baja</option>
+                            <option value="media">🟡 Media</option>
+                            <option value="alta">🔴 Alta</option>
+                        </select>
+                        <input type="date" id="todo-date" style="flex: 1; margin-bottom: 0;">
+                    </div>
+                    
                     <button id="btn-add">Añadir Tarea</button>
                 </div>
             </div>
         </div>
 
         <div id="list-panel" class="container task-panel hidden">
-            <h3>Tu Lista</h3>
+            <div class="filter-group">
+                <button class="btn-filter active" onclick="setFilter('all')">Todas</button>
+                <button class="btn-filter" onclick="setFilter('pending')">Pendientes</button>
+                <button class="btn-filter" onclick="setFilter('completed')">Hechas</button>
+            </div>
+
             <ul id="todo-list"></ul>
             <div id="empty-state" class="empty-state">
                 <p>No hay pendientes. ¡Buen trabajo! ✨</p>
