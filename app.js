@@ -9,13 +9,13 @@ const todoList = document.getElementById('todo-list');
 const emptyState = document.getElementById('empty-state');
 const todoInput = document.getElementById('todo-input');
 
-// Escuchar cambios de sesión en tiempo real
-_supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN') checkUser();
-    if (event === 'SIGNED_OUT') checkUser();
+// Listener de sesión para cambios inmediatos
+_supabase.auth.onAuthStateChange((event) => {
+    if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+        checkUser();
+    }
 });
 
-// Soporte para Enter
 todoInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') document.getElementById('btn-add').click();
 });
@@ -23,14 +23,13 @@ todoInput.addEventListener('keypress', (e) => {
 document.getElementById('btn-login').onclick = async () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    if(!email || !password) return alert("Ingresa tus datos");
+    
     const btn = document.getElementById('btn-login');
-    
-    if(!email || !password) return alert("Escribe tu correo y contraseña");
-    
-    btn.innerText = "Verificando...";
+    btn.innerText = "Cargando...";
     const { error } = await _supabase.auth.signInWithPassword({ email, password });
     if (error) {
-        alert("Error: " + error.message);
+        alert(error.message);
         btn.innerText = "Entrar";
     }
 };
@@ -40,7 +39,7 @@ document.getElementById('btn-signup').onclick = async () => {
     const password = document.getElementById('password').value;
     const { error } = await _supabase.auth.signUp({ email, password });
     if (error) alert(error.message);
-    else alert("¡Confirma tu correo electrónico!");
+    else alert("Revisa tu correo de confirmación");
 };
 
 document.getElementById('btn-logout').onclick = async () => {
@@ -67,7 +66,7 @@ async function fetchTasks() {
                       onclick="toggleTask(${task.id}, ${task.is_completed})">
                     ${task.task}
                 </span>
-                <button class="btn-delete" onclick="deleteTask(${task.id})">🗑️</button>
+                <button onclick="deleteTask(${task.id})" style="background:transparent; color:#94a3b8;">🗑️</button>
             `;
             todoList.appendChild(li);
         });
@@ -106,7 +105,6 @@ async function checkUser() {
         authSection.classList.remove('hidden');
         todoSection.classList.add('hidden');
         listPanel.classList.add('hidden');
-        document.getElementById('btn-login').innerText = "Entrar";
     }
 }
 
