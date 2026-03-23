@@ -18,28 +18,53 @@ body {
     margin: 0;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Apila el nav y el wrapper verticalmente */
+    align-items: center;
     padding: 20px;
-    box-sizing: border-box;
 }
 
+/* --- NAVEGACIÓN SUPERIOR --- */
+.header-nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px; /* Espacio antes de los contenedores */
+}
+
+.btn-contact {
+    text-decoration: none;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-contact:hover {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.2);
+}
+
+/* --- CONTENEDORES --- */
 .wrapper {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
     width: 100%;
     max-width: 950px;
 }
 
-/* Contenedor para los paneles debajo del botón */
-.main-content {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
 @media (min-width: 768px) {
-    .main-content { flex-direction: row; align-items: stretch; }
+    .wrapper { flex-direction: row; align-items: stretch; }
     .main-panel { flex: 1; position: sticky; top: 20px; height: fit-content; }
     .task-panel { flex: 1.5; }
 }
@@ -66,7 +91,7 @@ h1 {
 
 .hidden { display: none !important; }
 
-/* --- INPUTS Y BOTONES --- */
+/* --- INPUTS --- */
 input {
     width: 100%;
     padding: 16px;
@@ -86,51 +111,75 @@ input:focus {
     box-shadow: 0 0 15px var(--primary-glow);
 }
 
+/* --- BOTONES --- */
 button {
     cursor: pointer;
     border: none;
     border-radius: 12px;
     font-weight: 700;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary), #818cf8); color: #0f172a; margin-bottom: 10px; }
-#btn-signup { width: 100%; padding: 14px; background: rgba(56, 189, 248, 0.1); color: var(--primary); border: 2px solid var(--primary); }
-#btn-add { padding: 10px 25px; background: var(--success); color: #062016; align-self: flex-end; }
-#btn-logout { background: rgba(244, 63, 94, 0.1); color: var(--danger); padding: 6px 12px; border: 1px solid rgba(244, 63, 94, 0.2); }
-
-button:hover { transform: translateY(-2px); filter: brightness(1.1); }
-
-.input-group { display: flex; flex-direction: column; gap: 10px; }
-
-/* --- BOTÓN DE CONTACTO SUPERIOR --- */
-.header-nav {
     display: flex;
-    justify-content: flex-start; /* Alineado a la izquierda arriba */
-    padding: 10px 0;
-    width: 100%;
-}
-
-.btn-contact {
-    text-decoration: none;
-    color: var(--text-muted);
-    background: var(--card-bg);
-    padding: 12px 24px;
-    border-radius: 16px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-    display: flex;
+    justify-content: center;
     align-items: center;
+}
+
+#btn-login {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary), #818cf8);
+    color: #0f172a;
+    box-shadow: 0 4px 15px var(--primary-glow);
+    margin-bottom: 10px;
+}
+
+#btn-signup {
+    width: 100%;
+    padding: 14px;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+#btn-add {
+    width: fit-content;
+    padding: 10px 25px;
+    font-size: 0.95rem;
+    background: linear-gradient(135deg, var(--success), #34d399);
+    color: #062016;
+    align-self: flex-end;
+}
+
+#btn-logout {
+    width: auto;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    background: rgba(244, 63, 94, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* --- ESTRUCTURA --- */
+.input-group {
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
-.btn-contact:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    background: rgba(56, 189, 248, 0.05);
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+.user-info span { font-size: 0.85rem; color: var(--text-muted); }
 
 /* --- LISTA --- */
 li {
@@ -144,6 +193,18 @@ li {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.task-text { flex-grow: 1; cursor: pointer; }
+.task-text { flex-grow: 1; cursor: pointer; color: var(--text-main); }
 .task-done { text-decoration: line-through; opacity: 0.4; }
 
+.btn-delete {
+    background: transparent;
+    color: var(--danger);
+    padding: 5px;
+    font-size: 1.2rem;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 20px;
+}
