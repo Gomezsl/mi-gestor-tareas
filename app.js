@@ -9,7 +9,8 @@ const todoList = document.getElementById('todo-list');
 const emptyState = document.getElementById('empty-state');
 const todoInput = document.getElementById('todo-input');
 
-// Listener de sesión para cambios inmediatos
+let currentFilter = 'all';
+
 _supabase.auth.onAuthStateChange((event) => {
     if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
         checkUser();
@@ -20,6 +21,7 @@ todoInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') document.getElementById('btn-add').click();
 });
 
+// --- AUTENTICACIÓN ---
 document.getElementById('btn-login').onclick = async () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -46,27 +48,44 @@ document.getElementById('btn-logout').onclick = async () => {
     await _supabase.auth.signOut();
 };
 
-async function fetchTasks() {
-    const { data: tasks, error } = await _supabase
-        .from('tasks')
-        .select('*')
-        .order('id', { ascending: false });
+// --- GESTIÓN DE TAREAS ---
+function setFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    fetchTasks();
+}
 
+async function fetchTasks() {
+    let query = _supabase.from('tasks').select('*').order('id', { ascending: false });
+
+    if (currentFilter === 'pending') query = query.eq('is_completed', false);
+    if (currentFilter === 'completed') query = query.eq('is_completed', true);
+
+    const { data: tasks, error } = await query;
     if (error) return;
+
     todoList.innerHTML = '';
-    
     if (tasks.length === 0) {
         emptyState.classList.remove('hidden');
     } else {
         emptyState.classList.add('hidden');
         tasks.forEach(task => {
+            const isOverdue = task.due_date && new Date(task.due_date) < new Date().setHours(0,0,0,0) && !task.is_completed;
+            
             const li = document.createElement('li');
+            li.className = `priority-${task.priority || 'baja'}`;
             li.innerHTML = `
-                <span class="task-text ${task.is_completed ? 'task-done' : ''}" 
-                      onclick="toggleTask(${task.id}, ${task.is_completed})">
-                    ${task.task}
-                </span>
-                <button onclick="deleteTask(${task.id})" style="background:transparent; color:#94a3b8;">🗑️</button>
+                <div class="task-info" onclick="toggleTask(${task.id}, ${task.is_completed})">
+                    <span class="task-text ${task.is_completed ? 'task-done' : ''} ${isOverdue ? 'overdue' : ''}">
+                        ${task.task}
+                    </span>
+                    <small class="task-meta">
+                        ${task.due_date ? '📅 ' + task.due_date : ''} 
+                        ${isOverdue ? '<b style="color:var(--danger)">¡VENCIDA!</b>' : ''}
+                    </small>
+                </div>
+                <button onclick="deleteTask(${task.id})" class="btn-delete">🗑️</button>
             `;
             todoList.appendChild(li);
         });
@@ -75,10 +94,19 @@ async function fetchTasks() {
 
 document.getElementById('btn-add').onclick = async () => {
     const val = todoInput.value.trim();
+    const priority = document.getElementById('todo-priority').value;
+    const dueDate = document.getElementById('todo-date').value;
     const { data: { user } } = await _supabase.auth.getUser();
+
     if (val && user) {
-        await _supabase.from('tasks').insert([{ task: val, user_id: user.id }]);
+        await _supabase.from('tasks').insert([{ 
+            task: val, 
+            user_id: user.id,
+            priority: priority,
+            due_date: dueDate || null
+        }]);
         todoInput.value = '';
+        document.getElementById('todo-date').value = '';
         fetchTasks();
     }
 };
@@ -89,8 +117,10 @@ window.toggleTask = async (id, currentState) => {
 };
 
 window.deleteTask = async (id) => {
-    await _supabase.from('tasks').delete().eq('id', id);
-    fetchTasks();
+    if(confirm("¿Eliminar esta tarea?")) {
+        await _supabase.from('tasks').delete().eq('id', id);
+        fetchTasks();
+    }
 };
 
 async function checkUser() {
