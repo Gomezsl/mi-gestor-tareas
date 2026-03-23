@@ -8,31 +8,39 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>📝 Mis Pendientes</h1>
+    <div class="wrapper">
+        <div class="container main-panel">
+            <h1>📝 Mis Pendientes</h1>
 
-        <div id="auth-section">
-            <input type="email" id="email" placeholder="Correo electrónico">
-            <input type="password" id="password" placeholder="Contraseña">
-            <div class="buttons">
-                <button id="btn-login">Entrar</button>
-                <button id="btn-signup">Registrarse</button>
+            <div id="auth-section">
+                <input type="email" id="email" placeholder="Correo electrónico">
+                <input type="password" id="password" placeholder="Contraseña">
+                <div class="buttons">
+                    <button id="btn-login">Entrar</button>
+                    <button id="btn-signup">Registrarse</button>
+                </div>
+            </div>
+
+            <div id="todo-section" class="hidden">
+                <div class="user-info">
+                    <span id="user-email"></span>
+                    <button id="btn-logout">Salir</button>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="todo-input" placeholder="¿Qué hay que hacer?">
+                    <button id="btn-add">Añadir</button>
+                </div>
             </div>
         </div>
 
-        <div id="todo-section" class="hidden">
-            <div class="user-info">
-                <span id="user-email"></span>
-                <button id="btn-logout">Salir</button>
-            </div>
-            
-            <div class="input-group">
-                <input type="text" id="todo-input" placeholder="Nueva tarea...">
-                <button id="btn-add">Añadir</button>
-            </div>
-
+        <div id="list-panel" class="container task-panel hidden">
+            <h3>Tu Lista</h3>
             <ul id="todo-list">
                 </ul>
+            <div id="empty-state" class="empty-state">
+                <p>No hay tareas pendientes ✨</p>
+            </div>
         </div>
     </div>
 
