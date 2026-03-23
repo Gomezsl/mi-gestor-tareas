@@ -9,47 +9,46 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="container main-panel">
-            <h1>📝 TaskMaster</h1>
+        <div class="header-nav">
+            <a href="contacto.html" class="btn-contact">
+                <span>👤</span> Sobre el Autor / Contacto
+            </a>
+        </div>
 
-            <div id="auth-section">
-                <input type="email" id="email" placeholder="Correo electrónico">
-                <input type="password" id="password" placeholder="Contraseña">
-                <div class="buttons">
-                    <button id="btn-login">Entrar</button>
-                    <button id="btn-signup">Registrarse</button>
+        <div class="main-content">
+            <div class="container main-panel">
+                <h1>📝 TaskMaster</h1>
+
+                <div id="auth-section">
+                    <input type="email" id="email" placeholder="Correo electrónico">
+                    <input type="password" id="password" placeholder="Contraseña">
+                    <div class="buttons">
+                        <button id="btn-login">Entrar</button>
+                        <button id="btn-signup">Registrarse</button>
+                    </div>
+                </div>
+
+                <div id="todo-section" class="hidden">
+                    <div class="user-info">
+                        <span id="user-email"></span>
+                        <button id="btn-logout">Salir</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="todo-input" placeholder="¿Qué tienes pendiente hoy?">
+                        <button id="btn-add">Añadir Tarea</button>
+                    </div>
                 </div>
             </div>
 
-            <div id="todo-section" class="hidden">
-                <div class="user-info">
-                    <span id="user-email"></span>
-                    <button id="btn-logout">Salir</button>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="todo-input" placeholder="¿Qué tienes pendiente hoy?">
-                    <button id="btn-add">Añadir Tarea</button>
+            <div id="list-panel" class="container task-panel hidden">
+                <h3>Tu Lista</h3>
+                <ul id="todo-list"></ul>
+                <div id="empty-state" class="empty-state">
+                    <p>No hay pendientes. ¡Buen trabajo! ✨</p>
                 </div>
             </div>
         </div>
-
-        <div id="list-panel" class="container task-panel hidden">
-            <h3>Tu Lista</h3>
-            <ul id="todo-list"></ul>
-            <div id="empty-state" class="empty-state">
-                <p>No hay pendientes. ¡Buen trabajo! ✨</p>
-            </div>
-        </div>
     </div>
-        </div> <div class="footer-nav">
-        <a href="contacto.html" class="btn-contact">
-            <span>👤</span> Sobre el Autor / Contacto
-        </a>
-    </div>
-
-    <script src="app.js"></script>
-</body>
-</html>
 
     <script src="app.js"></script>
 </body>
