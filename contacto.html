@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - DAG Studio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        /* Colores del Gestor de Tareas */
+        --bg: #0b0f1a;
+        --card-bg: #1e293b;
+        --primary: #38bdf8;
+        --primary-glow: rgba(56, 189, 248, 0.4);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --input-bg: #334155;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg);
+        color: var(--text-main);
+        line-height: 1.6;
+    }
+
+    /* NAVBAR ESTILO GESTOR */
+    .nav-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(30, 41, 59, 0.8);
+        padding: 15px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-header a {
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: var(--transition);
+    }
+
+    .nav-logo { font-weight: bold; color: var(--text-main); font-size: 1.2rem; }
+    
+    header {
+        text-align: center;
+        padding: 140px 20px 60px;
+        background: linear-gradient(to bottom, rgba(56, 189, 248, 0.1), transparent);
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+        margin: 0;
+        background: linear-gradient(135deg, #38bdf8, #818cf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .main-wrapper {
+        max-width: 1000px;
+        margin: 0 auto 60px;
+        padding: 0 20px;
+    }
+
+    /* TARJETA PERFIL */
+    .profile-card {
+        background: var(--card-bg);
+        padding: 40px;
+        border-radius: 28px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 3px solid var(--primary);
+        object-fit: cover;
+        margin-bottom: 20px;
+        box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    h2 { color: var(--text-main); margin-bottom: 5px; }
+    
+    .role-tag {
+        background: rgba(56, 189, 248, 0.1);
+        color: var(--primary);
+        padding: 6px 18px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        border: 1px solid var(--primary);
+        margin-bottom: 25px;
+    }
+
+    /* TABLA DE DATOS */
+    .data-sheet {
+        width: 100%;
+        max-width: 450px;
+        margin-bottom: 20px;
+    }
+
+    .data-sheet td {
+        padding: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .label { font-weight: 700; color: var(--primary); width: 140px; text-align: left; }
+    .value { color: var(--text-main); text-align: left; }
+
+    .bio-text {
+        color: var(--text-muted);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+        font-size: 0.95rem;
+    }
+
+    /* GRID DE INFORMACIÓN */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
+
+    .info-box {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    h3 { color: var(--primary); margin-top: 0; }
+
+    /* REDES Y CORREOS */
+    .social-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .social-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 18px;
+        background: var(--input-bg);
+        color: var(--text-main);
+        text-decoration: none;
+        border-radius: 14px;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .social-item:hover {
+        transform: translateX(5px);
+        background: var(--primary);
+        color: #0f172a;
+    }
+
+    .social-item svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .spacer { height: 40px; } /* Los 3 espacios que pediste */
+
+    .email-item {
+        display: block;
+        color: var(--primary);
+        font-weight: 700;
+        text-decoration: none;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .web-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: 1px solid var(--primary);
+        border-radius: 12px;
+        transition: var(--transition);
+    }
+
+    .web-link:hover {
+        background: var(--primary);
+        color: #0f172a;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+        header h1 { font-size: 1.8rem; }
+        .profile-card { padding: 25px; }
+    }
+    </style>
+</head>
+
+<body>
+
+<nav class="nav-header">
+    <a href="index.html">← Volver</a>
+    <div class="nav-logo">D.A.G Studio</div>
+</nav>
+
+<header>
+    <h1>Ficha del Desarrollador</h1>
+    <p style="color: var(--text-muted)">Información Académica y Profesional</p>
+</header>
+
+<main class="main-wrapper">
+
+    <section class="profile-card">
+        <img src="imagenes/tu_foto.jpg" alt="Daniel Aguilar Gómez" class="profile-img">
+        <span class="role-tag">Estudiante de Programación</span>
+        <h2>Daniel Aguilar Gómez</h2>
+        
+        <table class="data-sheet">
+            <tr><td class="label">Nickname:</td><td class="value">Aguilar0987</td></tr>
+            <tr><td class="label">Estudio:</td><td class="value">D.A.G Studio</td></tr>
+            <tr><td class="label">Nivel:</td><td class="value">Programación 6to Semestre</td></tr>
+            <tr><td class="label">Institución:</td><td class="value">CBTIS 113</td></tr>
+        </table>
+
+        <div class="bio-text">
+            <p>Soy un estudiante apasionado por la informática y el desarrollo de software, con un enfoque particular en crear soluciones digitales que sean tanto funcionales como visualmente atractivas. Me motiva el aprendizaje constante y el reto de transformar código en experiencias significativas.</p>
+        </div>
+    </section>
+
+    <div class="info-grid">
+        <div class="info-box">
+            <h3>Mis Proyectos Web</h3>
+            <p><strong>RaízMX:</strong> Mi portal principal dedicado a la cultura mexicana.</p>
+            <a href="https://raizmx.netlify.app/" class="web-link" target="_blank">Visitar RaízMX</a>
+            
+            <p style="margin-top: 25px;"><strong>Gestor de Tareas:</strong> Aplicación de productividad personal con base de datos en tiempo real.</p>
+        </div>
+
+        <div class="info-box">
+            <h3>Mis Redes</h3>
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/14aYAT7W52z/" class="social-item" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.65 9.12 8.44 9.88v-6.99H7.9V12h2.54V9.41c0-2.51 1.49-3.89 3.77-3.89 1.09 0 2.23.19 2.23.19v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.35 21.12 22 16.99 22 12z"/></svg>
+                    Facebook
+                </a>
+                <a href="https://www.instagram.com/danielaguilar098?igsh=MWR2YzgzcThoZDl2eQ==" class="social-item" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    Instagram
+                </a>
+                <a href="https://github.com/Gomezsl" class="social-item" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    Github
+                </a>
+            </div>
+
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+
+            <h3>Correos</h3>
+            <div class="social-links">
+                <a href="mailto:aguilargdanielito@gmail.com" class="email-item">aguilargdanielito@gmail.com</a>
+                <a href="mailto:programasymas152@gmail.com" class="email-item">programasymas152@gmail.com</a>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 D.A.G Creative Studio | Daniel Aguilar Gómez</p>
+</footer>
+
+</body>
+</html>
+
