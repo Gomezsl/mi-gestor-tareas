@@ -1,9 +1,9 @@
 :root {
     --bg: #0b0f1a;
     --card-bg: #1e293b;
-    --primary: #38bdf8;
-    --primary-hover: #0ea5e9;
-    --danger: #f43f5e;
+    --primary: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    --secondary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --danger: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     --input-bg: #334155;
@@ -21,84 +21,109 @@ body {
     padding: 20px;
 }
 
-/* --- MEJORA DE DISEÑO RESPONSIVO --- */
 .wrapper {
     display: flex;
-    flex-direction: column; /* Por defecto uno abajo del otro (Celular) */
-    gap: 30px;
+    flex-direction: column;
+    gap: 25px;
     width: 100%;
-    max-width: 900px; /* Aumentamos el ancho máximo para cuando estén de lado */
-    align-items: flex-start;
+    max-width: 950px;
 }
 
-/* Cuando la pantalla sea más grande que 768px (Tablets/Computadoras) */
 @media (min-width: 768px) {
-    .wrapper {
-        flex-direction: row; /* Se ponen uno al lado del otro */
-        align-items: stretch;
-    }
-
-    .main-panel {
-        flex: 1; /* El panel de control ocupa un espacio proporcional */
-        position: sticky;
-        top: 20px;
-    }
-
-    .task-panel {
-        flex: 1.5; /* La lista de tareas es un poco más ancha */
-    }
+    .wrapper { flex-direction: row; align-items: flex-start; }
+    .main-panel { flex: 1; position: sticky; top: 20px; }
+    .task-panel { flex: 1.6; }
 }
 
 .container {
     background: var(--card-bg);
-    padding: 2.5rem; /* Más espacio interno para que no esté pegado */
-    border-radius: 24px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    width: 100%;
-    box-sizing: border-box;
+    padding: 2rem;
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.4s ease;
 }
 
-/* --- SEPARACIÓN DE ELEMENTOS INTERNOS --- */
-h1 {
-    margin-bottom: 2rem; /* Más espacio bajo el título */
+/* --- BOTONES CON ESTILO PREMIUM --- */
+button {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 20px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
 }
 
+#btn-login, #btn-add {
+    background: var(--primary);
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+}
+
+#btn-signup {
+    background: var(--secondary);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
+}
+
+#btn-logout {
+    background: var(--danger);
+    padding: 8px 16px;
+    font-size: 0.75rem;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.02);
+    filter: brightness(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* --- INPUTS --- */
 input {
     width: 100%;
-    padding: 14px 16px;
-    margin-bottom: 20px; /* Más separación entre inputs */
+    padding: 15px;
     background: var(--input-bg);
     border: 2px solid transparent;
+    border-radius: 15px;
     color: white;
-    border-radius: 12px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: 0.2s;
+    margin-bottom: 15px;
+    transition: 0.3s;
 }
 
-.buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* Espacio entre botones Entrar/Registrarse */
+input:focus {
+    outline: none;
+    border-color: #38bdf8;
+    background: #3d4b5f;
 }
 
-.user-info {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
+.hidden { display: none !important; }
 
-.input-group {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 1rem;
-}
-
-/* Estilo de la lista */
+/* Ajustes de la lista */
 li {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.04);
     margin-bottom: 12px;
-    border-radius: 16px;
+    padding: 18px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #38bdf8;
 }
+
+.btn-delete {
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    padding: 5px;
+    box-shadow: none;
+}
+.btn-delete:hover { color: #f43f5e; background: transparent; transform: scale(1.2); }
