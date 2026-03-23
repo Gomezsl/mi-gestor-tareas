@@ -54,3 +54,25 @@ li {
 }
 
 .task-done { text-decoration: line-through; color: #777; }
+
+/* Estilo para tareas completadas */
+.task-done { 
+    text-decoration: line-through; 
+    color: #777; 
+    opacity: 0.6;
+}
+
+/* Cursor de mano para el texto de la tarea */
+.task-text {
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+/* Efecto hover para botones */
+button:hover {
+    filter: brightness(1.1);
+}
+
+button:active {
+    transform: scale(0.98);
+}
