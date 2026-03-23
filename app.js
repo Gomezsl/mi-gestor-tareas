@@ -9,31 +9,42 @@ const todoList = document.getElementById('todo-list');
 const emptyState = document.getElementById('empty-state');
 const todoInput = document.getElementById('todo-input');
 
-// Enter para añadir
+// Escuchar cambios de sesión en tiempo real
+_supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN') checkUser();
+    if (event === 'SIGNED_OUT') checkUser();
+});
+
+// Soporte para Enter
 todoInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') document.getElementById('btn-add').click();
 });
 
-// Autenticación básica
 document.getElementById('btn-login').onclick = async () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const btn = document.getElementById('btn-login');
     
-    btn.innerText = "Entrando...";
-    const { error } = await _supabase.auth.signInWithPassword({ email, password });
+    if(!email || !password) return alert("Escribe tu correo y contraseña");
     
+    btn.innerText = "Verificando...";
+    const { error } = await _supabase.auth.signInWithPassword({ email, password });
     if (error) {
         alert("Error: " + error.message);
         btn.innerText = "Entrar";
-    } else {
-        checkUser();
     }
+};
+
+document.getElementById('btn-signup').onclick = async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const { error } = await _supabase.auth.signUp({ email, password });
+    if (error) alert(error.message);
+    else alert("¡Confirma tu correo electrónico!");
 };
 
 document.getElementById('btn-logout').onclick = async () => {
     await _supabase.auth.signOut();
-    checkUser();
 };
 
 async function fetchTasks() {
@@ -43,7 +54,6 @@ async function fetchTasks() {
         .order('id', { ascending: false });
 
     if (error) return;
-    
     todoList.innerHTML = '';
     
     if (tasks.length === 0) {
@@ -67,7 +77,6 @@ async function fetchTasks() {
 document.getElementById('btn-add').onclick = async () => {
     const val = todoInput.value.trim();
     const { data: { user } } = await _supabase.auth.getUser();
-    
     if (val && user) {
         await _supabase.from('tasks').insert([{ task: val, user_id: user.id }]);
         todoInput.value = '';
@@ -97,6 +106,7 @@ async function checkUser() {
         authSection.classList.remove('hidden');
         todoSection.classList.add('hidden');
         listPanel.classList.add('hidden');
+        document.getElementById('btn-login').innerText = "Entrar";
     }
 }
 
