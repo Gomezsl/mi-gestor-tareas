@@ -6,21 +6,22 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const authSection = document.getElementById('auth-section');
 const todoSection = document.getElementById('todo-section');
 const todoList = document.getElementById('todo-list');
+const todoInput = document.getElementById('todo-input');
 
-// --- MEJORA: SOPORTE PARA TECLA ENTER ---
-document.getElementById('todo-input').addEventListener('keypress', (e) => {
+// Soporte para Enter
+todoInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') document.getElementById('btn-add').click();
 });
 
-// --- AUTENTICACIÓN ---
+// Autenticación
 document.getElementById('btn-signup').onclick = async () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    if(!email || !password) return alert("Llena todos los campos");
+    if(!email || !password) return alert("Por favor, completa los campos");
 
     const { error } = await _supabase.auth.signUp({ email, password });
     if (error) alert("Error: " + error.message); 
-    else alert("¡Revisa tu correo para confirmar tu cuenta!");
+    else alert("¡Excelente! Revisa tu email para activar tu cuenta.");
 };
 
 document.getElementById('btn-login').onclick = async () => {
@@ -28,12 +29,15 @@ document.getElementById('btn-login').onclick = async () => {
     const password = document.getElementById('password').value;
     const btn = document.getElementById('btn-login');
     
-    btn.innerText = "Entrando...";
-    const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+    btn.innerText = "Cargando...";
+    btn.disabled = true;
+
+    const { error } = await _supabase.auth.signInWithPassword({ email, password });
     
     if (error) {
         alert("Error: " + error.message);
         btn.innerText = "Entrar";
+        btn.disabled = false;
     } else {
         checkUser();
     }
@@ -44,7 +48,7 @@ document.getElementById('btn-logout').onclick = async () => {
     checkUser();
 };
 
-// --- GESTIÓN DE TAREAS ---
+// Gestión de Tareas
 async function fetchTasks() {
     const { data: { user } } = await _supabase.auth.getUser();
     if (!user) return;
@@ -64,40 +68,38 @@ async function fetchTasks() {
                   onclick="toggleTask(${task.id}, ${task.is_completed})">
                 ${task.task}
             </span>
-            <button onclick="deleteTask(${task.id})">🗑️</button>
+            <button class="btn-delete" onclick="deleteTask(${task.id})">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
         `;
         todoList.appendChild(li);
     });
 }
 
 document.getElementById('btn-add').onclick = async () => {
-    const input = document.getElementById('todo-input');
+    const val = todoInput.value.trim();
     const btn = document.getElementById('btn-add');
     const { data: { user } } = await _supabase.auth.getUser();
     
-    if (input.value && user) {
+    if (val && user) {
         btn.disabled = true;
-        await _supabase.from('tasks').insert([{ task: input.value, user_id: user.id }]);
-        input.value = '';
+        const { error } = await _supabase.from('tasks').insert([{ task: val, user_id: user.id }]);
+        if (error) alert(error.message);
+        todoInput.value = '';
         btn.disabled = false;
         fetchTasks();
     }
 };
 
-// --- MEJORA: FUNCIÓN PARA TACHAR TAREAS ---
 window.toggleTask = async (id, currentState) => {
-    await _supabase
-        .from('tasks')
-        .update({ is_completed: !currentState })
-        .eq('id', id);
+    await _supabase.from('tasks').update({ is_completed: !currentState }).eq('id', id);
     fetchTasks();
 };
 
 window.deleteTask = async (id) => {
-    if(confirm("¿Borrar esta tarea?")) {
-        await _supabase.from('tasks').delete().eq('id', id);
-        fetchTasks();
-    }
+    // Borrado directo para una sensación más "app"
+    await _supabase.from('tasks').delete().eq('id', id);
+    fetchTasks();
 };
 
 async function checkUser() {
@@ -111,7 +113,6 @@ async function checkUser() {
         authSection.classList.remove('hidden');
         todoSection.classList.add('hidden');
         todoList.innerHTML = '';
-        document.getElementById('btn-login').innerText = "Entrar";
     }
 }
 
